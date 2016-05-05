@@ -45,6 +45,7 @@
 #include "TAppEncCfg.h"
 #include "TAppCommon/program_options_lite.h"
 #include "TLibEncoder/TEncRateCtrl.h"
+#include "TLibEncoder/TEncSVM.h"
 #ifdef WIN32
 #define strdup _strdup
 #endif
@@ -746,6 +747,9 @@ Bool TAppEncCfg::parseCfg( Int argc, TChar* argv[] )
   ("DisableIntraInInter",                             m_bDisableIntraPUsInInterSlices,                  false, "Flag to disable intra PUs in inter slices")
   ("FastSearch",                                      tmpMotionEstimationSearchMethod,  Int(MESEARCH_DIAMOND), "0:Full search 1:Diamond 2:Selective 3:Enhanced Diamond")
   ("SearchRange,-sr",                                 m_iSearchRange,                                      96, "Motion search range")
+  ("SvmModelPath",                                 TEncSVM::modelPath,                                 string(), "SVM model path")
+  ("UseSVM",                                       TEncSVM::enableSVM,                                  false, "SVM enabler")
+  ("SearchRange,-sr",                                 m_iSearchRange,                                      96, "Motion search range")
   ("BipredSearchRange",                               m_bipredSearchRange,                                  4, "Motion search range for bipred refinement")
   ("MinSearchWindow",                                 m_minSearchWindow,                                    8, "Minimum motion search window size for the adaptive window ME")
   ("RestrictMESampling",                              m_bRestrictMESampling,                            false, "Restrict ME Sampling for selective inter motion search")
@@ -1070,7 +1074,10 @@ Bool TAppEncCfg::parseCfg( Int argc, TChar* argv[] )
       return false;
     }
   }
-
+  if(TEncSVM::enableSVM){
+    TEncSVM::init();
+  }
+ 
   /*
    * Set any derived parameters
    */

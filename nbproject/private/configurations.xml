@@ -162,6 +162,8 @@
           <in>TEncPreanalyzer.h</in>
           <in>TEncRateCtrl.cpp</in>
           <in>TEncRateCtrl.h</in>
+          <in>TEncSVM.cpp</in>
+          <in>TEncSVM.h</in>
           <in>TEncSampleAdaptiveOffset.cpp</in>
           <in>TEncSampleAdaptiveOffset.h</in>
           <in>TEncSbac.cpp</in>
@@ -174,7 +176,7 @@
           <in>TEncTop.h</in>
           <in>WeightPredAnalysis.cpp</in>
           <in>WeightPredAnalysis.h</in>
-          <in>svm-predict.c</in>
+          <in>svm.cpp</in>
           <in>svm.h</in>
         </df>
         <df name="TLibVideoIO">
@@ -209,6 +211,8 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
+        <gdb_signals>
+        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
@@ -221,9 +225,12 @@
       <runprofile version="9">
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdealy_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}"</runcommand>
-        <rundir>build/linux</rundir>
+        <runcommand>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommand>
+        <rundir>bin</rundir>
         <buildfirst>false</buildfirst>
         <terminal-type>0</terminal-type>
         <remove-instrumentation>0</remove-instrumentation>
