@@ -3,8 +3,6 @@
 
 #define LIBSVM_VERSION 321
 #define MAX_FEAT 27
-#define SVM_START_POC 5
-#define SVM_TRAIN_PERIOD 4
 
 #ifdef __cplusplus
 extern "C" {
