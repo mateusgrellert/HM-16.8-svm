@@ -1,4 +1,6 @@
 #include "TEncSVM.h"
+#include "TLibCommon/TComYuv.h"
+#include "TLibCommon/TComPic.h"
 
 
 struct svm_model* TEncSVM::model;
@@ -38,37 +40,66 @@ bool TEncSVM::predictSplit(TComDataCU *&cu){
     setCUFeatures(cu);
     
     double predict_label = svm_predict_probability(model,svmNode,probEstimates);
-    double not_split_prob = probEstimates[0];
+   // double not_split_prob = probEstimates[0];
     double split_prob = probEstimates[1];
         
-    if (not_split_prob >= 0.5){
-        return false;
-    }
-    if(split_prob > 0.5){
+    if (split_prob >= 0.5){
         return true;
     }
+    else{
+        return false;
+    }
     
-    return predict_label;
+    return (bool) predict_label;
 
 }
 
 double TEncSVM::getFeatureValue(int idx, TComDataCU *&cu){
     double val = 0;
-     
-    int mvH = cu->getCUMvField(REF_PIC_LIST_0)->getMv( 0 ).getHor();
-    int mvV = cu->getCUMvField(REF_PIC_LIST_0)->getMv( 0 ).getVer();
+    Pel *origSrc = cu->getPic()->getPicYuvOrg()->getAddr(COMPONENT_Y);
+    int origStride = cu->getPic()->getPicYuvOrg()->getStride(COMPONENT_Y);
+    
+    Pel *resiSrc = cu->getPic()->getPicYuvResi()->getAddr(COMPONENT_Y);
+    int resiStride = cu->getPic()->getPicYuvResi()->getStride(COMPONENT_Y);
+    
+    int fullMvH = cu->getCUMvField(REF_PIC_LIST_0)->getMv( 0 ).getHor();
+    int fullMvV = cu->getCUMvField(REF_PIC_LIST_0)->getMv( 0 ).getVer();
+   
+    int mvH = fullMvH >> 2;
+    int mvV = fullMvV >> 2;
     double mvMod = (double) sqrt(mvH*mvH + mvV*mvV);
     
-    double fracMvH = float(mvH % 4) / 4.0;
-    double fracMvV = float(mvV % 4) / 4.0;
+    double fracMvH = float(fullMvH % 4) / 4.0;
+    double fracMvV = float(fullMvV % 4) / 4.0;
     double fracMvMod = (double) sqrt(fracMvH*fracMvH + fracMvV*fracMvV);
+    
 
+    int fullPredMvH = cu->getCUMvField(RefPicList(REF_PIC_LIST_0))->getMvd( 0 ).getHor() + cu->getCUMvField(RefPicList(REF_PIC_LIST_0))->getMv( 0 ).getHor();
+    int fullPredMvV = cu->getCUMvField(RefPicList(REF_PIC_LIST_0))->getMvd( 0 ).getVer() + cu->getCUMvField(RefPicList(REF_PIC_LIST_0))->getMv( 0 ).getVer();
+    
+    int predMvH = fullPredMvH >> 2;
+    int predMvV = fullPredMvV >> 2;
+    double predMvMod = (double) sqrt(predMvH*predMvH + predMvV*predMvV);
+    
+    double predFracMvH = float(fullPredMvH % 4) / 4.0;
+    double predFracMvV = float(fullPredMvV % 4) / 4.0;
+    double predFracMvMod = (double) sqrt(predFracMvH*predFracMvH + predFracMvV*predFracMvV);
+    
     switch(idx){
-        case 0:
-            return 0;
-            break;
         case 1:
-            return 0;
+            val = calculateAverage(cu, origSrc, origStride);
+            break;
+        case 2:
+            val = calculateVariance(cu, origSrc, origStride);
+            break;
+        case 3:
+            val = calculateAverage(cu, resiSrc, resiStride);
+            break;
+        case 4:
+            val = calculateSAD(cu, resiSrc, resiStride);
+            break;
+        case 5:
+            val = calculateVariance(cu, resiSrc, resiStride);
             break;
         case 6:
             if(cu->isSkipped(0)) val = 0;  // SKIP':'0', 'MERGE':'1', 'INTER':'2', 'INTRA': '3'}
@@ -76,25 +107,86 @@ double TEncSVM::getFeatureValue(int idx, TComDataCU *&cu){
             else if (cu->isInter(0)) val = 2;
             else val = 3;  
             break;
+        case 7:
+            val = cu->getTotalBits();
+            break;
+        case 8:
+            val = cu->getTotalCost();
+            break;
         case 9:
-            val = (int) cu->getPartitionSize(0); // PU Size
+            val = (double) cu->getPartitionSize(0); // PU Size
             break;
         case 10:
-            val = (int) cu->getTransformIdx(0); // TR DEPTH
+            val = (double) cu->getTransformIdx(0); // TR DEPTH
             break;
         case 16:
             val = mvMod;        // INT MV MOD
             break;
+        case 19:
+            val = fracMvMod;
+            break;
+        case 22:
+            val = predMvMod;
+            break;
         case 25:
-            val = fracMvMod;  // FRAC MV MOD
+            val = predFracMvMod;  // FRAC MV MOD
             break;
         case 26:
             val = cu->getMVPIdx(RefPicList( REF_PIC_LIST_0 ), 0);  // MVP Idx
             break;
         default:
-            fprintf(stderr, "Feature not supported!\n");
+            fprintf(stderr, "Feature IDX %d not supported!\n", idx);
             exit(1);
             break;
     }
     return val;
 }
+
+double TEncSVM::calculateVariance(TComDataCU *&cu, Pel *src, int stride){
+    int w = cu->getWidth(0);
+
+    int diff;
+    double avg = calculateAverage(cu, src, stride);
+    double var = 0;
+    for(int i = 0; i < w; i++){
+        for(int j = 0; j < w; j++){
+            diff = avg - src[j];
+            var += diff*diff;
+        }
+        src+=stride;
+    }
+    
+    return (var)/(w*w);
+}
+
+double TEncSVM::calculateAverage(TComDataCU *&cu, Pel *src, int stride){
+    int w = cu->getWidth(0);
+   
+    double avg = 0;
+    
+    for(int i = 0; i < w; i++){
+        for(int j = 0; j < w; j++){
+            avg += src[j];
+        }
+        src+=stride;
+    }
+    
+    return avg/(w*w);
+}
+
+
+double TEncSVM::calculateSAD(TComDataCU *&cu, Pel *src, int stride){
+    int w = cu->getWidth(0);
+   
+    double avg = 0;
+    
+    for(int i = 0; i < w; i++){
+        for(int j = 0; j < w; j++){
+            avg += abs(src[j]);
+        }
+        src+=stride;
+    }
+    
+    return avg/(w*w);
+}
+

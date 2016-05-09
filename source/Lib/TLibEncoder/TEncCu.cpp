@@ -982,9 +982,18 @@ Void TEncCu::xEncodeCU( TComDataCU* pcCU, UInt uiAbsPartIdx, UInt uiDepth )
         xEncodeCU( pcCU, uiAbsPartIdx, uiDepth+1 );
       }
     }
+      
+    if(pcCU->getPic()->getPOC() >= SVM_START_POC && pcCU->getPic()->getPOC() < SVM_START_POC + SVM_TRAIN_PERIOD && TEncSVM::enableSVM){
+        TEncSVM::addTrainCU(pcCU, true);
+    }
+    
     return;
   }
 
+    if(pcCU->getPic()->getPOC() >= SVM_START_POC && pcCU->getPic()->getPOC() < SVM_START_POC + SVM_TRAIN_PERIOD && TEncSVM::enableSVM){
+        TEncSVM::addTrainCU(pcCU, false);
+    }
+  
   if( uiDepth <= pps.getMaxCuDQPDepth() && pps.getUseDQP())
   {
     setdQPFlag(true);

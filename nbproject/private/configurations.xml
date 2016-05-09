@@ -228,8 +228,9 @@
           <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdealy_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommand>
         <rundir>bin</rundir>
         <buildfirst>false</buildfirst>
         <terminal-type>0</terminal-type>

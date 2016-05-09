@@ -126,7 +126,7 @@
           <buildCommandWorkingDir>build/linux</buildCommandWorkingDir>
           <buildCommand>${MAKE} -j16 -f makefile</buildCommand>
           <cleanCommand>${MAKE} -f makefile clean</cleanCommand>
-          <executablePath>bin/TAppEncoderStatic</executablePath>
+          <executablePath>bin/TAppEncoderStaticd</executablePath>
           <cTool>
             <incDir>
               <pElem>source/Lib</pElem>
