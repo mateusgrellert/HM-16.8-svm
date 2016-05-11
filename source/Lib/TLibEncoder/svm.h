@@ -4,6 +4,9 @@
 #define LIBSVM_VERSION 321
 #define MAX_FEAT 27
 
+#define MAX(A,B) ( (A > B) ? (A) : (B) )
+#define MIN(A,B) ( (A < B) ? (A) : (B) )
+
 #ifdef __cplusplus
 extern "C" {
 #endif

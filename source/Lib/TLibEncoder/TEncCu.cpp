@@ -357,7 +357,9 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
   DEBUG_STRING_NEW(sDebug)
   const TComPPS &pps=*(rpcTempCU->getSlice()->getPPS());
   const TComSPS &sps=*(rpcTempCU->getSlice()->getSPS());
-  
+      
+  clock_t init_clk = clock();
+
   // These are only used if getFastDeltaQp() is true
   const UInt fastDeltaQPCuMaxSize    = Clip3(sps.getMaxCUHeight()>>sps.getLog2DiffMaxMinCodingBlockSize(), sps.getMaxCUHeight(), 32u);
 
@@ -726,7 +728,9 @@ Void TEncCu::xCompressCU( TComDataCU*& rpcBestCU, TComDataCU*& rpcTempCU, const 
   
   bool svmSplit = true;
   if(rpcTempCU->getPic()->getPOC() > 4 && TEncSVM::enableSVM){
-    svmSplit = TEncSVM::predictSplit(rpcBestCU);
+    clock_t end_clk = clock();
+    double time = (double) (end_clk - init_clk)/CLOCKS_PER_SEC;
+    svmSplit = TEncSVM::predictSplit(rpcBestCU, time);
   }
   const Bool bSubBranch = bBoundary || svmSplit; //!( m_pcEncCfg->getUseEarlyCU() && rpcBestCU->getTotalCost()!=MAX_DOUBLE && rpcBestCU->isSkipped(0) );
 

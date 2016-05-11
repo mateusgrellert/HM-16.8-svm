@@ -211,8 +211,6 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
-        <gdb_signals>
-        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
@@ -224,13 +222,18 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdealy_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_scale_svm_train.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=AUTO_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=AUTO_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train_6features.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=AUTO_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=INCREMENTAL_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train_feat_2_6_8_9_10_26.txt.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=INCREMENTAL_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train_feat_2_6_8_9_10_26.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=INCREMENTAL_TRAIN/tmp.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=INCREMENTAL_TRAIN/tmp.txt --SvmScaleRangePath=./tmp.txt --UseSVM=1</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=INCREMENTAL_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=./train_BDrv_PkS_PoS_250_svm_train.txt --UseSVM=1</runcommand>
+        <runcommand>"${OUTPUT_PATH}" -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQSquare.cfg -f 16 --SvmModelPath=INCREMENTAL_TRAIN/train_BDrv_PkS_PoS_5000_scale_svm_train.txt --SvmScaleRangePath=./train_BDrv_PkS_PoS_5000_range.txt --UseSVM=1</runcommand>
         <rundir>bin</rundir>
         <buildfirst>false</buildfirst>
         <terminal-type>0</terminal-type>

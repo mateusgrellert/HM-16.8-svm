@@ -10,7 +10,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/grellert/HM-16.8-svm/source/Lib/TLibEncoder/svm-predict.c</file>
+            <file>file:/home/grellert/HM-16.8-svm/source/Lib/TLibCommon/CommonDef.h</file>
+            <file>file:/home/grellert/HM-16.8-svm/source/Lib/TLibEncoder/svm.cpp</file>
+            <file>file:/home/grellert/HM-16.8-svm/source/App/TAppEncoder/TAppEncCfg.cpp</file>
+            <file>file:/home/grellert/HM-16.8-svm/source/Lib/TLibEncoder/TEncSVM.cpp</file>
+            <file>file:/home/grellert/HM-16.8-svm/source/Lib/TLibEncoder/TEncSVM.h</file>
         </group>
     </open-files>
 </project-private>

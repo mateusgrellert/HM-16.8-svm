@@ -324,7 +324,7 @@ double Kernel::k_function(const svm_node *x, const svm_node *y,
 			return powi(param.gamma*dot(x,y)+param.coef0,param.degree);
 		case RBF:
 		{
-			double sum = 0;
+			long double sum = 0;
 			while(x->index != -1 && y->index !=-1)
 			{
 				if(x->index == y->index)
@@ -2873,10 +2873,13 @@ bool read_model_header(FILE *fp, svm_model* model)
 
 }
 
-svm_model *svm_load_model(const char *model_file_name, int* svmFeatIdx )
+svm_model *svm_load_model(const char *model_file_name, int* svmFeatIdx)
 {
 	FILE *fp = fopen(model_file_name,"rb");
-	if(fp==NULL) return NULL;
+	if(fp==NULL){
+            fprintf(stderr, "Error opening file %s\n", model_file_name);
+            exit(1);
+        }
 
 	char *old_locale = setlocale(LC_ALL, NULL);
 	if (old_locale) {
@@ -2941,7 +2944,9 @@ svm_model *svm_load_model(const char *model_file_name, int* svmFeatIdx )
 	model->SV = Malloc(svm_node*,l);
 	svm_node *x_space = NULL;
 	if(l>0) x_space = Malloc(svm_node,elements);
-
+        int feat_cover_table[MAX_FEAT];
+        for ( i  = 0; i < MAX_FEAT; i++) feat_cover_table[i] = 0;
+        
 	int j=0;
 	for(i=0;i<l;i++)
 	{
@@ -2966,9 +2971,10 @@ svm_model *svm_load_model(const char *model_file_name, int* svmFeatIdx )
 			x_space[j].index = (int) strtol(idx,&endptr,10);
 			x_space[j].value = strtod(val,&endptr);
                         
-                        if(i == 0){
+                        if(feat_cover_table[x_space[j].index] == 0){
                             svmFeatIdx[numFeat] = x_space[j].index;
                             numFeat++;
+                            feat_cover_table[x_space[j].index] = 1;
                         }
 
 			++j;
@@ -2977,7 +2983,7 @@ svm_model *svm_load_model(const char *model_file_name, int* svmFeatIdx )
 	}
 	free(line);
                             
-        svmFeatIdx[MAX_FEAT-1] = numFeat;
+        svmFeatIdx[MAX_FEAT] = numFeat;
 
 	setlocale(LC_ALL, old_locale);
 	free(old_locale);
