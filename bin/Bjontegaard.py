@@ -119,6 +119,6 @@ def bdrate(metrics_1, metrics_2, yuv_sel=1):
   if avgDiff > MAX_EXP :
     return MAX_EXP
   else:
-  	return (math.pow(10, avgDiff)-1)*100
+  	return (math.pow(10, avgDiff)-1)
 
 

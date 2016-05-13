@@ -39,7 +39,7 @@ for trf in train_files:
 	avg_tr = 0.0
 	for qp in qps:
 		cmd = './TAppEncoderStatic -c ../cfg/encoder_lowdelay_P_main.cfg -c ~/hm-cfgs/BQMall.cfg -f %d -q %d --UseSVM=1 --SvmModelPath=%s%s --SvmScaleRangePath=%s ' % (num_frames, qp,argv[1],trf, rangePath)
-		print cmd
+		#print cmd
 		if 1:
 			output = check_output(cmd, shell=True,stderr=PIPE)
 			bitrate = re.search(re_bitrate, output).group(1)
@@ -49,7 +49,7 @@ for trf in train_files:
 
 			tr = float(time)/float(refTimes[qps.index(qp)])
 			avg_tr += tr
-			print 'TRAIN: %s Time: %f TimeRatio: %.2f BR: %s YUV: %s' % (trf, time, tr, bitrate, yuv)
+			print 'TRAIN: %s Time: %.2f TimeRatio: %.2f BR: %s YUV: %s' % (trf, float(time), tr, bitrate, yuv)
 		else:
 			fail = True
 	"""if not fail:

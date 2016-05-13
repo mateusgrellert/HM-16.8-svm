@@ -1,0 +1,5 @@
+train_BDrv_PkS_PoS_5000_qp37_scale_svm_train_feat_10_qp37.txt 	0.00804684436286 	0.787021674507
+train_BDrv_PkS_PoS_5000_qp37_scale_svm_train_feat_6_10_qp37.txt 	0.00804684436286 	0.773118567244
+train_BDrv_PkS_PoS_5000_qp37_scale_svm_train_feat_9_10_qp37.txt 	0.00290298096093 	0.809753669149
+train_BDrv_PkS_PoS_5000_qp37_scale_svm_train_feat_2_6_9_10_qp37.txt 	0.00613225385287 	0.794326669715
+train_BDrv_PkS_PoS_5000_qp37_scale_svm_train_feat_6_9_10_qp37.txt 	0.0053811631093 	0.806281963612
